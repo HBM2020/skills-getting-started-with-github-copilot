@@ -21,12 +21,50 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const spotsLeft = details.max_participants - details.participants.length;
 
-        activityCard.innerHTML = `
-          <h4>${name}</h4>
-          <p>${details.description}</p>
-          <p><strong>Schedule:</strong> ${details.schedule}</p>
-          <p><strong>Availability:</strong> ${spotsLeft} spots left</p>
-        `;
+        const title = document.createElement("h4");
+        title.textContent = name;
+
+        const description = document.createElement("p");
+        description.textContent = details.description;
+
+        const schedule = document.createElement("p");
+        schedule.innerHTML = `<strong>Schedule:</strong> ${details.schedule}`;
+
+        const availability = document.createElement("p");
+        availability.className = "availability";
+        availability.innerHTML = `<strong>Availability:</strong> ${spotsLeft} spots left`;
+
+        const participantsSection = document.createElement("div");
+        participantsSection.className = "participants-section";
+
+        const participantsTitle = document.createElement("p");
+        participantsTitle.className = "participants-title";
+        participantsTitle.textContent = "Participants";
+
+        const participantsList = document.createElement("ul");
+        participantsList.className = "participants-list";
+
+        if (details.participants.length > 0) {
+          details.participants.forEach((participantEmail) => {
+            const participantItem = document.createElement("li");
+            participantItem.textContent = participantEmail;
+            participantsList.appendChild(participantItem);
+          });
+        } else {
+          const emptyItem = document.createElement("li");
+          emptyItem.className = "participants-empty";
+          emptyItem.textContent = "No participants yet";
+          participantsList.appendChild(emptyItem);
+        }
+
+        participantsSection.appendChild(participantsTitle);
+        participantsSection.appendChild(participantsList);
+
+        activityCard.appendChild(title);
+        activityCard.appendChild(description);
+        activityCard.appendChild(schedule);
+        activityCard.appendChild(availability);
+        activityCard.appendChild(participantsSection);
 
         activitiesList.appendChild(activityCard);
 
