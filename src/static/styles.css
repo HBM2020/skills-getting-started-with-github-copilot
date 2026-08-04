@@ -108,6 +108,11 @@ button:hover {
   background-color: #3949ab;
 }
 
+button:disabled {
+  background-color: #9fa8da;
+  cursor: not-allowed;
+}
+
 .message {
   margin-top: 20px;
   padding: 10px;

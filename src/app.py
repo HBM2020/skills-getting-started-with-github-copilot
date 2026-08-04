@@ -38,6 +38,12 @@ activities = {
         "schedule": "Mondays, Wednesdays, Fridays, 2:00 PM - 3:00 PM",
         "max_participants": 30,
         "participants": ["john@mergington.edu", "olivia@mergington.edu"]
+    },
+    "Art Club": {
+        "description": "Explore drawing, painting, and mixed media projects",
+        "schedule": "Wednesdays, 3:30 PM - 5:00 PM",
+        "max_participants": 15,
+        "participants": ["lucas@mergington.edu", "mia@mergington.edu"]
     }
 }
 
@@ -62,6 +68,23 @@ def signup_for_activity(activity_name: str, email: str):
     # Get the specific activity
     activity = activities[activity_name]
 
+    # Normalize and validate email input
+    normalized_email = email.strip().lower()
+    if not normalized_email:
+        raise HTTPException(status_code=400, detail="Email is required")
+
+    # Prevent duplicate signups (case/space insensitive)
+    existing_emails = {participant.strip().lower()
+                       for participant in activity["participants"]}
+    if normalized_email in existing_emails:
+        raise HTTPException(
+            status_code=409, detail="Student already signed up for this activity"
+        )
+
+    # Validate capacity before adding
+    if len(activity["participants"]) >= activity["max_participants"]:
+        raise HTTPException(status_code=400, detail="Activity is full")
+
     # Add student
-    activity["participants"].append(email)
-    return {"message": f"Signed up {email} for {activity_name}"}
+    activity["participants"].append(normalized_email)
+    return {"message": f"Signed up {normalized_email} for {activity_name}"}
