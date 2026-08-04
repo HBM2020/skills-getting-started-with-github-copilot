@@ -1,5 +1,6 @@
 <div align="center">
 
+<!-- Getting Started with GitHub Copilot -->
 # 🎉 Congratulations HBM2020! 🎉
 
 <img src="https://octodex.github.com/images/welcometocat.png" height="200px" />
